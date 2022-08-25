@@ -18,7 +18,7 @@ kotlin {
     sourceSets {
         named("jvmMain") {
             dependencies {
-                implementation(compose.desktop.currentOs)
+                implementation(compose.foundation)
 
                 implementation("com.mayakapps.compose:window-styler:0.3.2")
             }
