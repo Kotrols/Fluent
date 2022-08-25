@@ -98,8 +98,8 @@ object HyperlinkButtonDefaults {
         backgroundDisabledColor: Color = FluentTheme.colorScheme.fillSubtleDisabled,
         backgroundFocusedColor: Color = backgroundColor,
         contentColor: Color = FluentTheme.colorScheme.textAccentPrimary,
-        contentHoverColor: Color = FluentTheme.colorScheme.textAccentPrimary,
-        contentPressedColor: Color = FluentTheme.colorScheme.textAccentSecondary,
+        contentHoverColor: Color = FluentTheme.colorScheme.textAccentSecondary,
+        contentPressedColor: Color = FluentTheme.colorScheme.textAccentTertiary,
         contentDisabledColor: Color = FluentTheme.colorScheme.textAccentDisabled,
         contentFocusedColor: Color = contentColor,
     ): HyperlinkButtonColors {
