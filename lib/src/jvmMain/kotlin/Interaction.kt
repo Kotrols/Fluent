@@ -4,39 +4,39 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun InteractionSource.collectInteractionAsState(): State<Interaction?> {
-    val lastInteraction = remember { mutableStateOf<Interaction?>(null) }
+    val interactions = remember { mutableStateListOf<Interaction>() }
     LaunchedEffect(this) {
         this@collectInteractionAsState.interactions.collect { interaction ->
             when (interaction) {
                 is HoverInteraction.Enter -> {
-                    lastInteraction.value = interaction
+                    interactions.add(interaction)
                 }
 
                 is HoverInteraction.Exit -> {
-                    lastInteraction.value = null
+                    interactions.remove(interaction.enter)
                 }
 
                 is FocusInteraction.Focus -> {
-                    lastInteraction.value = interaction
+                    interactions.add(interaction)
                 }
 
                 is FocusInteraction.Unfocus -> {
-                    lastInteraction.value = null
+                    interactions.remove(interaction.focus)
                 }
 
                 is PressInteraction.Press -> {
-                    lastInteraction.value = interaction
+                    interactions.add(interaction)
                 }
 
                 is PressInteraction.Release -> {
-                    lastInteraction.value = null
+                    interactions.remove(interaction.press)
                 }
 
                 is PressInteraction.Cancel -> {
-                    lastInteraction.value = null
+                    interactions.remove(interaction.press)
                 }
             }
         }
     }
-    return lastInteraction
+    return rememberUpdatedState(interactions.lastOrNull())
 }
