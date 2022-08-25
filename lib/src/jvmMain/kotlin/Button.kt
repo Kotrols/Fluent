@@ -16,8 +16,8 @@ fun Button(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: ButtonColors = ButtonDefaults.standardButtonColors(),
-    elevation: ButtonElevation = ButtonDefaults.buttonElevation(),
-    border: ButtonBorders = ButtonDefaults.buttonBorders(),
+    border: ButtonBorders = ButtonDefaults.standardButtonBorders(),
+    focus: ButtonFocus = ButtonDefaults.buttonFocus(),
     shape: Shape = ButtonDefaults.Shape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -25,9 +25,8 @@ fun Button(
 ) {
     val backgroundColor by colors.backgroundColor(enabled, interactionSource)
     val contentColor by colors.contentColor(enabled, interactionSource)
-    val focusOuterStroke by colors.focusStrokeOuterColor(enabled, interactionSource)
-    val focusInnerStroke by colors.focusStrokeInnerColor(enabled, interactionSource)
-    val elevationData by elevation.elevation(enabled, interactionSource)
+    val focusOuterStroke by focus.outerStroke(enabled, interactionSource)
+    val focusInnerStroke by focus.innerStroke(enabled, interactionSource)
     val borderStroke by border.border(enabled, interactionSource)
     Box(
         modifier = modifier
@@ -38,7 +37,6 @@ fun Button(
             )
             .clip(shape)
             .background(backgroundColor)
-
             .clickable(
                 onClick = onClick,
                 indication = null,
@@ -51,7 +49,6 @@ fun Button(
                 interactionSource = interactionSource
             )
             .then(if (borderStroke != null) Modifier.border(borderStroke!!, shape) else Modifier)
-            .then(if (elevationData != null) Modifier.elevation(elevationData!!, shape) else Modifier)
     ) {
         CompositionLocalProvider(
             LocalContentColor provides contentColor,
@@ -72,13 +69,15 @@ fun Button(
     }
 }
 
+
 @Composable
 fun AccentButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: ButtonColors = ButtonDefaults.accentButtonColors(),
-    elevation: ButtonElevation = ButtonDefaults.buttonElevation(),
+    border: ButtonBorders = ButtonDefaults.accentButtonBorders(),
+    focus: ButtonFocus = ButtonDefaults.buttonFocus(),
     shape: Shape = ButtonDefaults.Shape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -88,7 +87,8 @@ fun AccentButton(
     modifier = modifier,
     enabled = enabled,
     colors = colors,
-    elevation = elevation,
+    border = border,
+    focus = focus,
     shape = shape,
     contentPadding = contentPadding,
     interactionSource = interactionSource,
@@ -124,8 +124,6 @@ object ButtonDefaults {
         contentPressedColor: Color = FluentTheme.colorScheme.textSecondary,
         contentDisabledColor: Color = FluentTheme.colorScheme.textDisabled,
         contentFocusedColor: Color = contentColor,
-        focusStrokeOuterColor: Color = FluentTheme.colorScheme.strokeFocusOuter,
-        focusStrokeInnerColor: Color = FluentTheme.colorScheme.strokeFocusOuter
     ): ButtonColors {
         return DefaultButtonColors(
             backgroundColor = backgroundColor,
@@ -138,8 +136,6 @@ object ButtonDefaults {
             contentPressedColor = contentPressedColor,
             contentDisabledColor = contentDisabledColor,
             contentFocusedColor = contentFocusedColor,
-            focusStrokeOuterColor = focusStrokeOuterColor,
-            focusStrokeInnerColor = focusStrokeInnerColor
         )
     }
 
@@ -155,8 +151,6 @@ object ButtonDefaults {
         contentPressedColor: Color = FluentTheme.colorScheme.textOnAccentSecondary,
         contentDisabledColor: Color = FluentTheme.colorScheme.textOnAccentDisabled,
         contentFocusedColor: Color = contentColor,
-        focusStrokeOuterColor: Color = FluentTheme.colorScheme.strokeFocusOuter,
-        focusStrokeInnerColor: Color = FluentTheme.colorScheme.strokeFocusOuter
     ): ButtonColors {
         return DefaultButtonColors(
             backgroundColor = backgroundColor,
@@ -169,31 +163,15 @@ object ButtonDefaults {
             contentPressedColor = contentPressedColor,
             contentDisabledColor = contentDisabledColor,
             contentFocusedColor = contentFocusedColor,
-            focusStrokeOuterColor = focusStrokeOuterColor,
-            focusStrokeInnerColor = focusStrokeInnerColor
         )
     }
 
     @Composable
-    fun buttonElevation(
-        elevation: ElevationData? = FluentTheme.elevation.level2,
-        elevationHover: ElevationData? = elevation,
-        elevationPressed: ElevationData? = null,
-        elevationDisabled: ElevationData? = null,
-        elevationFocused: ElevationData? = elevation
-    ): ButtonElevation {
-        return DefaultButtonElevation(
-            elevation = elevation,
-            elevationHover = elevationHover,
-            elevationPressed = elevationPressed,
-            elevationDisabled = elevationDisabled,
-            elevationFocused = elevationFocused
-        )
-    }
-
-    @Composable
-    fun buttonBorders(
-        stroke: BorderStroke? = null,
+    fun standardButtonBorders(
+        stroke: BorderStroke? = BorderStroke(
+            width = 1.dp,
+            brush = FluentTheme.borderElevation.control
+        ),
         strokeHover: BorderStroke? = stroke,
         strokePressed: BorderStroke? = BorderStroke(
             width = 1.dp,
@@ -214,8 +192,41 @@ object ButtonDefaults {
         )
     }
 
-}
+    @Composable
+    fun accentButtonBorders(
+        stroke: BorderStroke? = BorderStroke(
+            width = 1.dp,
+            brush = FluentTheme.borderElevation.accentControl
+        ),
+        strokeHover: BorderStroke? = stroke,
+        strokePressed: BorderStroke? = BorderStroke(
+            width = 1.dp,
+            color = FluentTheme.colorScheme.strokeControlOnAccentDefault
+        ),
+        strokeDisabled: BorderStroke? = null,
+        strokeFocused: BorderStroke? = stroke,
+    ): ButtonBorders {
+        return DefaultButtonBorders(
+            stroke = stroke,
+            strokeHover = strokeHover,
+            strokePressed = strokePressed,
+            strokeDisabled = strokeDisabled,
+            strokeFocused = strokeFocused
+        )
+    }
 
+    @Composable
+    fun buttonFocus(
+        innerStroke: Color = FluentTheme.colorScheme.strokeFocusInner,
+        outerStroke: Color = FluentTheme.colorScheme.strokeFocusOuter
+    ): ButtonFocus {
+        return DefaultButtonFocus(
+            innerStroke = innerStroke,
+            outerStroke = outerStroke
+        )
+    }
+
+}
 
 interface ButtonColors {
 
@@ -225,24 +236,22 @@ interface ButtonColors {
     @Composable
     fun contentColor(enabled: Boolean, interactionSource: InteractionSource): State<Color>
 
-    @Composable
-    fun focusStrokeOuterColor(enabled: Boolean, interactionSource: InteractionSource): State<Color>
-
-    @Composable
-    fun focusStrokeInnerColor(enabled: Boolean, interactionSource: InteractionSource): State<Color>
-}
-
-interface ButtonElevation {
-
-    @Composable
-    fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<ElevationData?>
-
 }
 
 interface ButtonBorders {
 
     @Composable
     fun border(enabled: Boolean, interactionSource: InteractionSource): State<BorderStroke?>
+
+}
+
+interface ButtonFocus {
+
+    @Composable
+    fun innerStroke(enabled: Boolean, interactionSource: InteractionSource): State<Color>
+
+    @Composable
+    fun outerStroke(enabled: Boolean, interactionSource: InteractionSource): State<Color>
 
 }
 
@@ -258,9 +267,7 @@ data class DefaultButtonColors(
     private val contentPressedColor: Color,
     private val contentDisabledColor: Color,
     private val contentFocusedColor: Color,
-    private val focusStrokeOuterColor: Color,
-    private val focusStrokeInnerColor: Color,
-): ButtonColors {
+) : ButtonColors {
 
     @Composable
     override fun backgroundColor(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
@@ -294,46 +301,6 @@ data class DefaultButtonColors(
         }
         return rememberUpdatedState(target)
     }
-
-    @Composable
-    override fun focusStrokeOuterColor(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
-        val isFocused by interactionSource.collectIsFocusedAsState()
-        return rememberUpdatedState(if (enabled && isFocused) focusStrokeOuterColor else Color.Transparent)
-    }
-
-    @Composable
-    override fun focusStrokeInnerColor(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
-        val isFocused by interactionSource.collectIsFocusedAsState()
-        return rememberUpdatedState(if (enabled && isFocused) focusStrokeOuterColor else Color.Transparent)
-    }
-}
-
-@Immutable
-data class DefaultButtonElevation(
-    private val elevation: ElevationData?,
-    private val elevationHover: ElevationData?,
-    private val elevationPressed: ElevationData?,
-    private val elevationDisabled: ElevationData?,
-    private val elevationFocused: ElevationData?
-): ButtonElevation {
-
-    @Composable
-    override fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<ElevationData?> {
-        val interaction by interactionSource.collectInteractionAsState()
-
-        val target = if (!enabled) {
-            elevationDisabled
-        } else {
-            when (interaction) {
-                is PressInteraction.Press -> elevationPressed
-                is HoverInteraction.Enter -> elevationHover
-                is FocusInteraction.Focus -> elevationFocused
-                else -> elevation
-            }
-        }
-        return rememberUpdatedState(target)
-    }
-
 }
 
 @Immutable
@@ -343,7 +310,7 @@ data class DefaultButtonBorders(
     private val strokePressed: BorderStroke?,
     private val strokeDisabled: BorderStroke?,
     private val strokeFocused: BorderStroke?,
-): ButtonBorders {
+) : ButtonBorders {
 
     @Composable
     override fun border(enabled: Boolean, interactionSource: InteractionSource): State<BorderStroke?> {
@@ -360,6 +327,26 @@ data class DefaultButtonBorders(
             }
         }
         return rememberUpdatedState(target)
+    }
+
+}
+
+@Immutable
+data class DefaultButtonFocus(
+    private val innerStroke: Color,
+    private val outerStroke: Color,
+) : ButtonFocus {
+
+    @Composable
+    override fun innerStroke(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
+        val isFocused by interactionSource.collectIsFocusedAsState()
+        return rememberUpdatedState(if (isFocused && enabled) innerStroke else Color.Transparent)
+    }
+
+    @Composable
+    override fun outerStroke(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
+        val isFocused by interactionSource.collectIsFocusedAsState()
+        return rememberUpdatedState(if (isFocused && enabled) innerStroke else Color.Transparent)
     }
 
 }

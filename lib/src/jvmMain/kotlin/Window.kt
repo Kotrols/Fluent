@@ -8,7 +8,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.mayakapps.compose.windowstyler.WindowBackdrop
-import com.mayakapps.compose.windowstyler.WindowStyle
 import com.mayakapps.compose.windowstyler.WindowStyleManager
 
 @Composable

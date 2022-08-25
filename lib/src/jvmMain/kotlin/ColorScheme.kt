@@ -509,7 +509,7 @@ class ColorScheme(
         internal set
     var strokeControlSecondary by mutableStateOf(strokeControlSecondary)
         internal set
-    var strokeControlOnAccent by mutableStateOf(strokeControlOnAccentDefault)
+    var strokeControlOnAccentDefault by mutableStateOf(strokeControlOnAccentDefault)
         internal set
     var strokeControlOnAccentSecondary by mutableStateOf(strokeControlOnAccentSecondary)
         internal set

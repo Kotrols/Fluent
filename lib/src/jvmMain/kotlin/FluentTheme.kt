@@ -6,14 +6,16 @@ import androidx.compose.runtime.ReadOnlyComposable
 fun FluentTheme(
     colorScheme: ColorScheme = lightColorScheme(),
     typography: Typography = Typography(),
-    elevation: Elevation = lightElevation(),
+    borderElevation: BorderElevation = lightBorderElevation(),
+    shadowElevation: ShadowElevation = lightShadowElevation(),
     shapes: Shapes = Shapes(),
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(
         LocalColorScheme provides colorScheme,
         LocalTypography provides typography,
-        LocalElevation provides elevation,
+        LocalBorderElevation provides borderElevation,
+        LocalShadowElevation provides shadowElevation,
         LocalShapes provides shapes,
     ) {
         content()
@@ -32,10 +34,15 @@ object FluentTheme {
         @ReadOnlyComposable
         get() = LocalTypography.current
 
-    val elevation
+    val borderElevation
         @Composable
         @ReadOnlyComposable
-        get() = LocalElevation.current
+        get() = LocalBorderElevation.current
+
+    val shadowElevation
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalShadowElevation.current
 
     val shapes
         @Composable
