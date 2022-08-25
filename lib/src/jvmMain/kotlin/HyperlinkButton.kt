@@ -14,7 +14,6 @@ import androidx.compose.ui.input.pointer.PointerIconDefaults
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.flow
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -41,6 +40,7 @@ fun HyperlinkButton(
                 shape = shape
             )
             .clip(shape)
+            .background(backgroundColor)
             .clickable(
                 onClick = onClick,
                 indication = null,
@@ -52,7 +52,6 @@ fun HyperlinkButton(
                 enabled = enabled,
                 interactionSource = interactionSource
             )
-            .background(backgroundColor)
             .pointerHoverIcon(PointerIconDefaults.Hand)
     ) {
         CompositionLocalProvider(
