@@ -157,7 +157,7 @@ object ToggleButtonDefaults {
             color = FluentTheme.colorScheme.strokeControlOnAccentDefault
         ),
         strokeDisabled: BorderStroke? = strokePressed,
-        strokeToggledDisabled: BorderStroke? = strokeToggledPressed,
+        strokeToggledDisabled: BorderStroke? = null,
         strokeFocused: BorderStroke? = stroke,
         strokeToggledFocused: BorderStroke? = strokeToggled,
     ): ToggleButtonBorders {
