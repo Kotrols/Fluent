@@ -346,7 +346,7 @@ data class DefaultButtonFocus(
     @Composable
     override fun outerStroke(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
         val isFocused by interactionSource.collectIsFocusedAsState()
-        return rememberUpdatedState(if (isFocused && enabled) innerStroke else Color.Transparent)
+        return rememberUpdatedState(if (isFocused && enabled) outerStroke else Color.Transparent)
     }
 
 }
