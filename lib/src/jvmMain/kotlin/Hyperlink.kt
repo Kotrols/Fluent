@@ -72,7 +72,7 @@ object HyperlinkDefaults {
             textFocusedColor = textFocusedColor
         )
     }
-    
+
     @Composable
     fun hyperlinkDecoration(
         decoration: TextDecoration? = TextDecoration.Underline,
@@ -161,7 +161,7 @@ data class DefaultHyperlinkDecoration(
     private val decorationPressed: TextDecoration?,
     private val decorationDisabled: TextDecoration?,
     private val decorationFocused: TextDecoration?
-): HyperlinkDecoration {
+) : HyperlinkDecoration {
 
     @Composable
     override fun decoration(enabled: Boolean, interactionSource: InteractionSource): State<TextDecoration?> {

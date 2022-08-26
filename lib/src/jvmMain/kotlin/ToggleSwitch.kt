@@ -176,17 +176,17 @@ private fun ToggleSwitchImpl(
         val alignment by animateBiasAlignmentAsState(
             (if (toggled) Alignment.CenterEnd else Alignment.CenterStart) as BiasAlignment
         )
-        Box(modifier = Modifier
-            .padding(padding)
-            .align(alignment)
-            .clip(CircleShape)
-            .background(thumbColor)
-            .width(thumbWidth)
-            .height(thumbHeight)
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .align(alignment)
+                .clip(CircleShape)
+                .background(thumbColor)
+                .width(thumbWidth)
+                .height(thumbHeight)
         )
     }
 }
-
 
 
 object ToggleSwitchDefaults {
@@ -197,25 +197,25 @@ object ToggleSwitchDefaults {
     @Composable
     fun toggleSwitchColors(
         containerColor: Color = FluentTheme.colorScheme.fillControlAltSecondary,
-        containerToggledColor: Color = FluentTheme.colorScheme.fillAccentDefault,
         containerHoverColor: Color = FluentTheme.colorScheme.fillControlAltTertiary,
-        containerToggledHoverColor: Color = FluentTheme.colorScheme.fillAccentSecondary,
         containerPressedColor: Color = FluentTheme.colorScheme.fillControlAltQuarternary,
-        containerToggledPressedColor: Color = FluentTheme.colorScheme.fillAccentTertiary,
         containerDisabledColor: Color = FluentTheme.colorScheme.fillControlAltDisabled,
-        containerToggledDisabledColor: Color = FluentTheme.colorScheme.fillAccentDisabled,
         containerFocusedColor: Color = containerColor,
-        containerToggledFocusedColor: Color = containerToggledColor,
+        toggledContainerColor: Color = FluentTheme.colorScheme.fillAccentDefault,
+        toggledContainerHoverColor: Color = FluentTheme.colorScheme.fillAccentSecondary,
+        toggledContainerPressedColor: Color = FluentTheme.colorScheme.fillAccentTertiary,
+        toggledContainerDisabledColor: Color = FluentTheme.colorScheme.fillAccentDisabled,
+        toggledContainerFocusedColor: Color = toggledContainerColor,
         thumbColor: Color = FluentTheme.colorScheme.textSecondary,
-        thumbToggledColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
         thumbHoverColor: Color = FluentTheme.colorScheme.textSecondary,
-        thumbToggledHoverColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
         thumbPressedColor: Color = FluentTheme.colorScheme.textSecondary,
-        thumbToggledPressedColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
         thumbDisabledColor: Color = FluentTheme.colorScheme.textDisabled,
-        thumbToggledDisabledColor: Color = FluentTheme.colorScheme.textOnAccentDisabled,
         thumbFocusedColor: Color = thumbColor,
-        thumbToggledFocusedColor: Color = thumbToggledColor,
+        toggledThumbColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
+        toggledThumbHoverColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
+        toggledThumbPressedColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
+        toggledThumbDisabledColor: Color = FluentTheme.colorScheme.textOnAccentDisabled,
+        toggledThumbFocusedColor: Color = toggledThumbColor,
         textColor: Color = FluentTheme.colorScheme.textPrimary,
         textHoverColor: Color = FluentTheme.colorScheme.textPrimary,
         textPressedColor: Color = FluentTheme.colorScheme.textPrimary,
@@ -224,25 +224,25 @@ object ToggleSwitchDefaults {
     ): ToggleSwitchColors {
         return DefaultToggleSwitchColors(
             containerColor = containerColor,
-            containerToggledColor = containerToggledColor,
             containerHoverColor = containerHoverColor,
-            containerToggledHoverColor = containerToggledHoverColor,
             containerPressedColor = containerPressedColor,
-            containerToggledPressedColor = containerToggledPressedColor,
             containerDisabledColor = containerDisabledColor,
-            containerToggledDisabledColor = containerToggledDisabledColor,
             containerFocusedColor = containerFocusedColor,
-            containerToggledFocusedColor = containerToggledFocusedColor,
+            toggledContainerColor = toggledContainerColor,
+            toggledContainerHoverColor = toggledContainerHoverColor,
+            toggledContainerPressedColor = toggledContainerPressedColor,
+            toggledContainerDisabledColor = toggledContainerDisabledColor,
+            toggledContainerFocusedColor = toggledContainerFocusedColor,
             thumbColor = thumbColor,
-            thumbToggledColor = thumbToggledColor,
             thumbHoverColor = thumbHoverColor,
-            thumbToggledHoverColor = thumbToggledHoverColor,
             thumbPressedColor = thumbPressedColor,
-            thumbToggledPressedColor = thumbToggledPressedColor,
             thumbDisabledColor = thumbDisabledColor,
-            thumbToggledDisabledColor = thumbToggledDisabledColor,
             thumbFocusedColor = thumbFocusedColor,
-            thumbToggledFocusedColor = thumbToggledFocusedColor,
+            toggledThumbColor = toggledThumbColor,
+            toggledThumbHoverColor = toggledThumbHoverColor,
+            toggledThumbPressedColor = toggledThumbPressedColor,
+            toggledThumbDisabledColor = toggledThumbDisabledColor,
+            toggledThumbFocusedColor = toggledThumbFocusedColor,
             textColor = textColor,
             textHoverColor = textHoverColor,
             textPressedColor = textPressedColor,
@@ -257,33 +257,33 @@ object ToggleSwitchDefaults {
             width = 1.dp,
             color = FluentTheme.colorScheme.strokeControlStrong
         ),
-        strokeToggled: BorderStroke? = BorderStroke(
+        toggledStroke: BorderStroke? = BorderStroke(
             width = 1.dp,
             color = FluentTheme.colorScheme.fillAccentTertiary
         ),
         strokeHover: BorderStroke? = stroke,
-        strokeToggledHover: BorderStroke? = strokeToggled,
+        toggledStrokeHover: BorderStroke? = toggledStroke,
         strokePressed: BorderStroke? = stroke,
-        strokeToggledPressed: BorderStroke? = strokeToggled,
+        toggledStrokePressed: BorderStroke? = toggledStroke,
         strokeDisabled: BorderStroke? = BorderStroke(
             width = 1.dp,
             color = FluentTheme.colorScheme.strokeControlStrongDisabled
         ),
-        strokeToggledDisabled: BorderStroke? = null,
+        toggledStrokeDisabled: BorderStroke? = null,
         strokeFocused: BorderStroke? = stroke,
-        strokeToggledFocused: BorderStroke? = strokeToggled,
+        toggledStrokeFocused: BorderStroke? = toggledStroke,
     ): ToggleSwitchBorders {
         return DefaultToggleSwitchBorders(
             stroke = stroke,
-            strokeToggled = strokeToggled,
+            toggledStroke = toggledStroke,
             strokeHover = strokeHover,
-            strokeToggledHover = strokeToggledHover,
+            toggledStrokeHover = toggledStrokeHover,
             strokePressed = strokePressed,
-            strokeToggledPressed = strokeToggledPressed,
+            toggledStrokePressed = toggledStrokePressed,
             strokeDisabled = strokeDisabled,
-            strokeToggledDisabled = strokeToggledDisabled,
+            toggledStrokeDisabled = toggledStrokeDisabled,
             strokeFocused = strokeFocused,
-            strokeToggledFocused = strokeToggledFocused
+            toggledStrokeFocused = toggledStrokeFocused
         )
     }
 
@@ -333,25 +333,25 @@ interface ToggleSwitchFocus {
 @Immutable
 data class DefaultToggleSwitchColors(
     private val containerColor: Color,
-    private val containerToggledColor: Color,
     private val containerHoverColor: Color,
-    private val containerToggledHoverColor: Color,
     private val containerPressedColor: Color,
-    private val containerToggledPressedColor: Color,
     private val containerDisabledColor: Color,
-    private val containerToggledDisabledColor: Color,
     private val containerFocusedColor: Color,
-    private val containerToggledFocusedColor: Color,
+    private val toggledContainerColor: Color,
+    private val toggledContainerHoverColor: Color,
+    private val toggledContainerPressedColor: Color,
+    private val toggledContainerDisabledColor: Color,
+    private val toggledContainerFocusedColor: Color,
     private val thumbColor: Color,
-    private val thumbToggledColor: Color,
     private val thumbHoverColor: Color,
-    private val thumbToggledHoverColor: Color,
     private val thumbPressedColor: Color,
-    private val thumbToggledPressedColor: Color,
     private val thumbDisabledColor: Color,
-    private val thumbToggledDisabledColor: Color,
     private val thumbFocusedColor: Color,
-    private val thumbToggledFocusedColor: Color,
+    private val toggledThumbColor: Color,
+    private val toggledThumbHoverColor: Color,
+    private val toggledThumbPressedColor: Color,
+    private val toggledThumbDisabledColor: Color,
+    private val toggledThumbFocusedColor: Color,
     private val textColor: Color,
     private val textHoverColor: Color,
     private val textPressedColor: Color,
@@ -360,29 +360,36 @@ data class DefaultToggleSwitchColors(
 ) : ToggleSwitchColors {
 
     @Composable
-    override fun containerColor(enabled: Boolean, toggled: Boolean, interactionSource: InteractionSource): State<Color> {
+    override fun containerColor(
+        enabled: Boolean,
+        toggled: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
         val interaction by interactionSource.collectInteractionAsState()
         val target = if (!enabled) {
             when (toggled) {
-                true -> containerToggledDisabledColor
+                true -> toggledContainerDisabledColor
                 false -> containerDisabledColor
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> containerToggledPressedColor
+                    true -> toggledContainerPressedColor
                     false -> containerPressedColor
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> containerToggledHoverColor
+                    true -> toggledContainerHoverColor
                     false -> containerHoverColor
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> containerToggledFocusedColor
+                    true -> toggledContainerFocusedColor
                     false -> containerFocusedColor
                 }
+
                 else -> when (toggled) {
-                    true -> containerToggledColor
+                    true -> toggledContainerColor
                     false -> containerColor
                 }
             }
@@ -395,25 +402,28 @@ data class DefaultToggleSwitchColors(
         val interaction by interactionSource.collectInteractionAsState()
         val target = if (!enabled) {
             when (toggled) {
-                true -> thumbToggledDisabledColor
+                true -> toggledThumbDisabledColor
                 false -> thumbDisabledColor
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> thumbToggledPressedColor
+                    true -> toggledThumbPressedColor
                     false -> thumbPressedColor
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> thumbToggledHoverColor
+                    true -> toggledThumbHoverColor
                     false -> thumbHoverColor
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> thumbToggledFocusedColor
+                    true -> toggledThumbFocusedColor
                     false -> thumbFocusedColor
                 }
+
                 else -> when (toggled) {
-                    true -> thumbToggledColor
+                    true -> toggledThumbColor
                     false -> thumbColor
                 }
             }
@@ -425,7 +435,7 @@ data class DefaultToggleSwitchColors(
     override fun textColor(enabled: Boolean, interactionSource: InteractionSource): State<Color> {
         val interaction by interactionSource.collectInteractionAsState()
         val target = if (!enabled) {
-                textDisabledColor
+            textDisabledColor
         } else {
             when (interaction) {
                 is PressInteraction.Press -> textPressedColor
@@ -441,42 +451,49 @@ data class DefaultToggleSwitchColors(
 @Immutable
 data class DefaultToggleSwitchBorders(
     private val stroke: BorderStroke?,
-    private val strokeToggled: BorderStroke?,
+    private val toggledStroke: BorderStroke?,
     private val strokeHover: BorderStroke?,
-    private val strokeToggledHover: BorderStroke?,
+    private val toggledStrokeHover: BorderStroke?,
     private val strokePressed: BorderStroke?,
-    private val strokeToggledPressed: BorderStroke?,
+    private val toggledStrokePressed: BorderStroke?,
     private val strokeDisabled: BorderStroke?,
-    private val strokeToggledDisabled: BorderStroke?,
+    private val toggledStrokeDisabled: BorderStroke?,
     private val strokeFocused: BorderStroke?,
-    private val strokeToggledFocused: BorderStroke?,
+    private val toggledStrokeFocused: BorderStroke?,
 ) : ToggleSwitchBorders {
 
     @Composable
-    override fun border(enabled: Boolean, toggled: Boolean, interactionSource: InteractionSource): State<BorderStroke?> {
+    override fun border(
+        enabled: Boolean,
+        toggled: Boolean,
+        interactionSource: InteractionSource
+    ): State<BorderStroke?> {
         val interaction by interactionSource.collectInteractionAsState()
 
         val target = if (!enabled) {
             when (toggled) {
-                true -> strokeToggledDisabled
+                true -> toggledStrokeDisabled
                 false -> strokeDisabled
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> strokeToggledPressed
+                    true -> toggledStrokePressed
                     false -> strokePressed
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> strokeToggledHover
+                    true -> toggledStrokeHover
                     false -> strokeHover
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> strokeToggledFocused
+                    true -> toggledStrokeFocused
                     false -> strokeFocused
                 }
+
                 else -> when (toggled) {
-                    true -> strokeToggled
+                    true -> toggledStroke
                     false -> stroke
                 }
             }

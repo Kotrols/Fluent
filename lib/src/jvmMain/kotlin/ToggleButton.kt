@@ -1,4 +1,7 @@
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
@@ -19,7 +22,7 @@ fun ToggleButton(
     enabled: Boolean = true,
     colors: ToggleButtonColors = ToggleButtonDefaults.toggleButtonColors(),
     border: ToggleButtonBorders = ToggleButtonDefaults.toggleButtonBorders(),
-    focus: ToggleButtonFocus = ToggleButtonDefaults.buttonFocus(),
+    focus: ToggleButtonFocus = ToggleButtonDefaults.toggleButtonFocus(),
     shape: Shape = ToggleButtonDefaults.Shape,
     contentPadding: PaddingValues = ToggleButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -92,47 +95,47 @@ object ToggleButtonDefaults {
     @Composable
     fun toggleButtonColors(
         backgroundColor: Color = FluentTheme.colorScheme.fillControlDefault,
-        backgroundToggledColor: Color = FluentTheme.colorScheme.fillAccentDefault,
         backgroundHoverColor: Color = FluentTheme.colorScheme.fillControlSecondary,
-        backgroundToggledHoverColor: Color = FluentTheme.colorScheme.fillAccentSecondary,
         backgroundPressedColor: Color = FluentTheme.colorScheme.fillControlTertiary,
-        backgroundToggledPressedColor: Color = FluentTheme.colorScheme.fillAccentTertiary,
         backgroundDisabledColor: Color = FluentTheme.colorScheme.fillControlDisabled,
-        backgroundToggledDisabledColor: Color = FluentTheme.colorScheme.fillAccentDisabled,
         backgroundFocusedColor: Color = backgroundColor,
-        backgroundToggledFocusedColor: Color = backgroundToggledColor,
+        toggledBackgroundColor: Color = FluentTheme.colorScheme.fillAccentDefault,
+        toggledBackgroundHoverColor: Color = FluentTheme.colorScheme.fillAccentSecondary,
+        toggledBackgroundPressedColor: Color = FluentTheme.colorScheme.fillAccentTertiary,
+        toggledBackgroundDisabledColor: Color = FluentTheme.colorScheme.fillAccentDisabled,
+        toggledBackgroundFocusedColor: Color = toggledBackgroundColor,
         contentColor: Color = FluentTheme.colorScheme.textPrimary,
-        contentToggledColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
         contentHoverColor: Color = FluentTheme.colorScheme.textPrimary,
-        contentToggledHoverColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
         contentPressedColor: Color = FluentTheme.colorScheme.textSecondary,
-        contentToggledPressedColor: Color = FluentTheme.colorScheme.textOnAccentSecondary,
         contentDisabledColor: Color = FluentTheme.colorScheme.textDisabled,
-        contentToggledDisabledColor: Color = FluentTheme.colorScheme.textOnAccentDisabled,
         contentFocusedColor: Color = contentColor,
-        contentToggledFocusedColor: Color = contentToggledColor,
+        toggledContentColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
+        toggledContentHoverColor: Color = FluentTheme.colorScheme.textOnAccentPrimary,
+        toggledContentPressedColor: Color = FluentTheme.colorScheme.textOnAccentSecondary,
+        toggledContentDisabledColor: Color = FluentTheme.colorScheme.textOnAccentDisabled,
+        toggledContentFocusedColor: Color = toggledContentColor,
     ): ToggleButtonColors {
         return DefaultToggleButtonColors(
             backgroundColor = backgroundColor,
-            backgroundToggledColor = backgroundToggledColor,
             backgroundHoverColor = backgroundHoverColor,
-            backgroundToggledHoverColor = backgroundToggledHoverColor,
             backgroundPressedColor = backgroundPressedColor,
-            backgroundToggledPressedColor = backgroundToggledPressedColor,
             backgroundDisabledColor = backgroundDisabledColor,
-            backgroundToggledDisabledColor = backgroundToggledDisabledColor,
             backgroundFocusedColor = backgroundFocusedColor,
-            backgroundToggledFocusedColor = backgroundToggledFocusedColor,
+            toggledBackgroundColor = toggledBackgroundColor,
+            toggledBackgroundHoverColor = toggledBackgroundHoverColor,
+            toggledBackgroundPressedColor = toggledBackgroundPressedColor,
+            toggledBackgroundDisabledColor = toggledBackgroundDisabledColor,
+            toggledBackgroundFocusedColor = toggledBackgroundFocusedColor,
             contentColor = contentColor,
-            contentToggledColor = contentToggledColor,
             contentHoverColor = contentHoverColor,
-            contentToggledHoverColor = contentToggledHoverColor,
             contentPressedColor = contentPressedColor,
-            contentToggledPressedColor = contentToggledPressedColor,
             contentDisabledColor = contentDisabledColor,
-            contentToggledDisabledColor = contentToggledDisabledColor,
             contentFocusedColor = contentFocusedColor,
-            contentToggledFocusedColor = contentToggledFocusedColor
+            toggledContentColor = toggledContentColor,
+            toggledContentHoverColor = toggledContentHoverColor,
+            toggledContentPressedColor = toggledContentPressedColor,
+            toggledContentDisabledColor = toggledContentDisabledColor,
+            toggledContentFocusedColor = toggledContentFocusedColor
         )
     }
 
@@ -142,41 +145,41 @@ object ToggleButtonDefaults {
             width = 1.dp,
             brush = FluentTheme.borderElevation.control
         ),
-        strokeToggled: BorderStroke? = BorderStroke(
-            width = 1.dp,
-            brush = FluentTheme.borderElevation.accentControl
-        ),
         strokeHover: BorderStroke? = stroke,
-        strokeToggledHover: BorderStroke? = strokeToggled,
         strokePressed: BorderStroke? = BorderStroke(
             width = 1.dp,
             color = FluentTheme.colorScheme.strokeControlDefault
         ),
-        strokeToggledPressed: BorderStroke? = BorderStroke(
+        strokeDisabled: BorderStroke? = strokePressed,
+        strokeFocused: BorderStroke? = stroke,
+        toggledStroke: BorderStroke? = BorderStroke(
+            width = 1.dp,
+            brush = FluentTheme.borderElevation.accentControl
+        ),
+        toggledStrokeHover: BorderStroke? = toggledStroke,
+        toggledStrokePressed: BorderStroke? = BorderStroke(
             width = 1.dp,
             color = FluentTheme.colorScheme.strokeControlOnAccentDefault
         ),
-        strokeDisabled: BorderStroke? = strokePressed,
-        strokeToggledDisabled: BorderStroke? = null,
-        strokeFocused: BorderStroke? = stroke,
-        strokeToggledFocused: BorderStroke? = strokeToggled,
+        toggledStrokeDisabled: BorderStroke? = null,
+        toggledStrokeFocused: BorderStroke? = toggledStroke,
     ): ToggleButtonBorders {
         return DefaultToggleButtonBorders(
             stroke = stroke,
-            strokeToggled = strokeToggled,
             strokeHover = strokeHover,
-            strokeToggledHover = strokeToggledHover,
             strokePressed = strokePressed,
-            strokeToggledPressed = strokeToggledPressed,
             strokeDisabled = strokeDisabled,
-            strokeToggledDisabled = strokeToggledDisabled,
             strokeFocused = strokeFocused,
-            strokeToggledFocused = strokeToggledFocused
+            toggledStroke = toggledStroke,
+            toggledStrokeHover = toggledStrokeHover,
+            toggledStrokePressed = toggledStrokePressed,
+            toggledStrokeDisabled = toggledStrokeDisabled,
+            toggledStrokeFocused = toggledStrokeFocused
         )
     }
 
     @Composable
-    fun buttonFocus(
+    fun toggleButtonFocus(
         innerStroke: Color = FluentTheme.colorScheme.strokeFocusInner,
         outerStroke: Color = FluentTheme.colorScheme.strokeFocusOuter
     ): ToggleButtonFocus {
@@ -218,51 +221,58 @@ interface ToggleButtonFocus {
 @Immutable
 data class DefaultToggleButtonColors(
     private val backgroundColor: Color,
-    private val backgroundToggledColor: Color,
     private val backgroundHoverColor: Color,
-    private val backgroundToggledHoverColor: Color,
     private val backgroundPressedColor: Color,
-    private val backgroundToggledPressedColor: Color,
     private val backgroundDisabledColor: Color,
-    private val backgroundToggledDisabledColor: Color,
     private val backgroundFocusedColor: Color,
-    private val backgroundToggledFocusedColor: Color,
+    private val toggledBackgroundColor: Color,
+    private val toggledBackgroundHoverColor: Color,
+    private val toggledBackgroundPressedColor: Color,
+    private val toggledBackgroundDisabledColor: Color,
+    private val toggledBackgroundFocusedColor: Color,
     private val contentColor: Color,
-    private val contentToggledColor: Color,
     private val contentHoverColor: Color,
-    private val contentToggledHoverColor: Color,
     private val contentPressedColor: Color,
-    private val contentToggledPressedColor: Color,
     private val contentDisabledColor: Color,
-    private val contentToggledDisabledColor: Color,
     private val contentFocusedColor: Color,
-    private val contentToggledFocusedColor: Color,
+    private val toggledContentColor: Color,
+    private val toggledContentHoverColor: Color,
+    private val toggledContentPressedColor: Color,
+    private val toggledContentDisabledColor: Color,
+    private val toggledContentFocusedColor: Color,
 ) : ToggleButtonColors {
 
     @Composable
-    override fun backgroundColor(enabled: Boolean, toggled: Boolean, interactionSource: InteractionSource): State<Color> {
+    override fun backgroundColor(
+        enabled: Boolean,
+        toggled: Boolean,
+        interactionSource: InteractionSource
+    ): State<Color> {
         val interaction by interactionSource.collectInteractionAsState()
         val target = if (!enabled) {
             when (toggled) {
-                true -> backgroundToggledDisabledColor
+                true -> toggledBackgroundDisabledColor
                 false -> backgroundDisabledColor
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> backgroundToggledPressedColor
+                    true -> toggledBackgroundPressedColor
                     false -> backgroundPressedColor
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> backgroundToggledHoverColor
+                    true -> toggledBackgroundHoverColor
                     false -> backgroundHoverColor
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> backgroundToggledFocusedColor
+                    true -> toggledBackgroundFocusedColor
                     false -> backgroundFocusedColor
                 }
+
                 else -> when (toggled) {
-                    true -> backgroundToggledColor
+                    true -> toggledBackgroundColor
                     false -> backgroundColor
                 }
             }
@@ -275,25 +285,28 @@ data class DefaultToggleButtonColors(
         val interaction by interactionSource.collectInteractionAsState()
         val target = if (!enabled) {
             when (toggled) {
-                true -> contentToggledDisabledColor
+                true -> toggledContentDisabledColor
                 false -> contentDisabledColor
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> contentToggledPressedColor
+                    true -> toggledContentPressedColor
                     false -> contentPressedColor
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> contentToggledHoverColor
+                    true -> toggledContentHoverColor
                     false -> contentHoverColor
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> contentToggledFocusedColor
+                    true -> toggledContentFocusedColor
                     false -> contentFocusedColor
                 }
+
                 else -> when (toggled) {
-                    true -> contentToggledColor
+                    true -> toggledContentColor
                     false -> contentColor
                 }
             }
@@ -305,42 +318,49 @@ data class DefaultToggleButtonColors(
 @Immutable
 data class DefaultToggleButtonBorders(
     private val stroke: BorderStroke?,
-    private val strokeToggled: BorderStroke?,
     private val strokeHover: BorderStroke?,
-    private val strokeToggledHover: BorderStroke?,
     private val strokePressed: BorderStroke?,
-    private val strokeToggledPressed: BorderStroke?,
     private val strokeDisabled: BorderStroke?,
-    private val strokeToggledDisabled: BorderStroke?,
     private val strokeFocused: BorderStroke?,
-    private val strokeToggledFocused: BorderStroke?,
+    private val toggledStroke: BorderStroke?,
+    private val toggledStrokeHover: BorderStroke?,
+    private val toggledStrokePressed: BorderStroke?,
+    private val toggledStrokeDisabled: BorderStroke?,
+    private val toggledStrokeFocused: BorderStroke?,
 ) : ToggleButtonBorders {
 
     @Composable
-    override fun border(enabled: Boolean, toggled: Boolean, interactionSource: InteractionSource): State<BorderStroke?> {
+    override fun border(
+        enabled: Boolean,
+        toggled: Boolean,
+        interactionSource: InteractionSource
+    ): State<BorderStroke?> {
         val interaction by interactionSource.collectInteractionAsState()
 
         val target = if (!enabled) {
             when (toggled) {
-                true -> strokeToggledDisabled
+                true -> toggledStrokeDisabled
                 false -> strokeDisabled
             }
         } else {
             when (interaction) {
                 is PressInteraction.Press -> when (toggled) {
-                    true -> strokeToggledPressed
+                    true -> toggledStrokePressed
                     false -> strokePressed
                 }
+
                 is HoverInteraction.Enter -> when (toggled) {
-                    true -> strokeToggledHover
+                    true -> toggledStrokeHover
                     false -> strokeHover
                 }
+
                 is FocusInteraction.Focus -> when (toggled) {
-                    true -> strokeToggledFocused
+                    true -> toggledStrokeFocused
                     false -> strokeFocused
                 }
+
                 else -> when (toggled) {
-                    true -> strokeToggled
+                    true -> toggledStroke
                     false -> stroke
                 }
             }
