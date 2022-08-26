@@ -6,6 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
+import java.awt.TextArea
 
 @Composable
 fun App(
@@ -18,12 +19,19 @@ fun App(
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ToggleButton(
+            ToggleSwitch(
                 toggled = isDark,
-                onToggle = { requestThemeChange() }
-            ) {
-                Text("Theme: ${if (isDark) "Dark" else "Light"}")
-            }
+                onToggle = { requestThemeChange() },
+                header = {
+                    Text("Theme")
+                },
+                textBefore = {
+                    Text("Light")
+                },
+                textAfter = {
+                    Text("Dark")
+                }
+            )
         }
     }
 }
