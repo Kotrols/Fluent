@@ -1,7 +1,13 @@
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector
+import androidx.compose.animation.core.TwoWayConverter
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
@@ -16,6 +22,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun ToggleSwitch(
@@ -34,31 +41,81 @@ fun ToggleSwitch(
     val focusOuterStroke by focus.outerStroke(enabled, interactionSource)
     val focusInnerStroke by focus.innerStroke(enabled, interactionSource)
     val textColor by colors.textColor(enabled, interactionSource)
+
+    //TODO use Swipeable or something like that in the future
+    val thumbAlignment = remember {
+        Animatable(
+            initialValue = BiasAlignment(0f, 0f),
+            typeConverter = TwoWayConverter(
+                convertToVector = {
+                    AnimationVector(
+                        it.horizontalBias
+                    )
+                },
+                convertFromVector = {
+                    BiasAlignment(it.value, 0f)
+                }
+            )
+        )
+    }
+
+    LaunchedEffect(toggled) {
+        thumbAlignment.animateTo(
+            (if (toggled) Alignment.CenterEnd else Alignment.CenterStart) as BiasAlignment
+        )
+    }
+
+    SideEffect {
+        thumbAlignment.updateBounds(lowerBound = BiasAlignment(-1f, 0f), upperBound = BiasAlignment(1f, 0f))
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val sharedModifiers = Modifier
+        .toggleable(
+            onValueChange = onToggle,
+            value = toggled,
+            enabled = enabled,
+            role = Role.Switch,
+            indication = null,
+            interactionSource = interactionSource,
+        )
+        .focusable(
+            enabled = enabled,
+            interactionSource = interactionSource
+        )
+        .draggable(
+            state = rememberDraggableState { delta ->
+                coroutineScope.launch {
+                    thumbAlignment.snapTo(
+                        BiasAlignment(
+                            horizontalBias = thumbAlignment.value.horizontalBias + delta,
+                            verticalBias = thumbAlignment.value.verticalBias
+                        )
+                    )
+                }
+            },
+            orientation = Orientation.Horizontal,
+            onDragStopped = {
+                onToggle(thumbAlignment.value.horizontalBias >= 0f)
+            },
+            interactionSource = interactionSource,
+        )
+
     if (header == null && textBefore == null && textAfter == null) {
         ToggleSwitchImpl(
-            toggled = toggled,
             modifier = modifier
                 .focusStroke(
                     outer = focusOuterStroke,
                     inner = focusInnerStroke,
                     shape = CircleShape
-                )
-                .toggleable(
-                    onValueChange = onToggle,
-                    value = toggled,
-                    enabled = enabled,
-                    role = Role.Switch,
-                    indication = null,
-                    interactionSource = interactionSource,
-                )
-                .focusable(
-                    enabled = enabled,
-                    interactionSource = interactionSource
-                ),
+                ).then(sharedModifiers),
+            toggled = toggled,
             enabled = enabled,
             colors = colors,
             border = border,
-            interactionSource = interactionSource
+            interactionSource = interactionSource,
+            thumbAlignment = thumbAlignment.value
         )
     } else {
         Column(
@@ -83,19 +140,7 @@ fun ToggleSwitch(
                         inner = focusInnerStroke,
                         shape = FluentTheme.shapes.small
                     )
-                    .padding(horizontal = 4.dp)
-                    .toggleable(
-                        onValueChange = onToggle,
-                        value = toggled,
-                        enabled = enabled,
-                        role = Role.Switch,
-                        indication = null,
-                        interactionSource = interactionSource,
-                    )
-                    .focusable(
-                        enabled = enabled,
-                        interactionSource = interactionSource
-                    ),
+                    .padding(horizontal = 4.dp).then(sharedModifiers),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -117,7 +162,8 @@ fun ToggleSwitch(
                     enabled = enabled,
                     colors = colors,
                     border = border,
-                    interactionSource = interactionSource
+                    interactionSource = interactionSource,
+                    thumbAlignment = thumbAlignment.value
                 )
                 if (textAfter != null) {
                     Box(modifier = Modifier.padding(top = 5.dp, bottom = 7.dp, end = 6.dp)) {
@@ -136,11 +182,12 @@ fun ToggleSwitch(
 
 @Composable
 private fun ToggleSwitchImpl(
-    toggled: Boolean,
     modifier: Modifier,
+    toggled: Boolean,
     enabled: Boolean,
     colors: ToggleSwitchColors,
     border: ToggleSwitchBorders,
+    thumbAlignment: BiasAlignment,
     interactionSource: MutableInteractionSource,
 ) {
     val containerColor by colors.containerColor(enabled, toggled, interactionSource)
@@ -150,12 +197,12 @@ private fun ToggleSwitchImpl(
     val interaction by interactionSource.collectInteractionAsState()
 
     val thumbWidth = when {
-        enabled && interaction is PressInteraction.Press -> 17.dp
+        enabled && (interaction is PressInteraction.Press || interaction is DragInteraction.Start) -> 17.dp
         enabled && interaction is HoverInteraction.Enter -> 14.dp
         else -> 12.dp
     }
     val thumbHeight = when {
-        enabled && (interaction is PressInteraction.Press || interaction is HoverInteraction.Enter) -> 14.dp
+        enabled && (interaction is PressInteraction.Press || interaction is HoverInteraction.Enter || interaction is DragInteraction.Start) -> 14.dp
         else -> 12.dp
     }
 
@@ -170,16 +217,13 @@ private fun ToggleSwitchImpl(
             .then(if (borderStroke != null) Modifier.border(borderStroke!!, CircleShape) else Modifier)
     ) {
         val padding = when {
-            enabled && (interaction is PressInteraction.Press || interaction is HoverInteraction.Enter) -> 2.dp
+            enabled && (interaction is PressInteraction.Press || interaction is HoverInteraction.Enter || interaction is DragInteraction.Start) -> 2.dp
             else -> 4.dp
         }
-        val alignment by animateBiasAlignmentAsState(
-            (if (toggled) Alignment.CenterEnd else Alignment.CenterStart) as BiasAlignment
-        )
         Box(
             modifier = Modifier
                 .padding(padding)
-                .align(alignment)
+                .align(thumbAlignment)
                 .clip(CircleShape)
                 .background(thumbColor)
                 .width(thumbWidth)

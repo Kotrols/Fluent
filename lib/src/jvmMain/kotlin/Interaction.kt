@@ -35,6 +35,18 @@ fun InteractionSource.collectInteractionAsState(): State<Interaction?> {
                 is PressInteraction.Cancel -> {
                     interactions.remove(interaction.press)
                 }
+
+                is DragInteraction.Start -> {
+                    interactions.add(interaction)
+                }
+
+                is DragInteraction.Stop -> {
+                    interactions.remove(interaction.start)
+                }
+
+                is DragInteraction.Cancel -> {
+                    interactions.remove(interaction.start)
+                }
             }
         }
     }
