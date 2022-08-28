@@ -6,12 +6,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
-import java.awt.TextArea
 
 @Composable
 fun App(
     isDark: Boolean,
-    requestThemeChange: () -> Unit,
+    requestThemeChange: (dark: Boolean) -> Unit,
 ) {
     FluentExampleTheme(isDark = isDark) {
         Column(
@@ -19,19 +18,28 @@ fun App(
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ToggleSwitch(
-                toggled = isDark,
-                onToggle = { requestThemeChange() },
+            RadioGroupColumn(
                 header = {
                     Text("Theme")
-                },
-                textBefore = {
+                }
+            ) {
+                RadioButton(
+                    selected = !isDark,
+                    onSelect = {
+                        requestThemeChange(false)
+                    }
+                ) {
                     Text("Light")
-                },
-                textAfter = {
+                }
+                RadioButton(
+                    selected = isDark,
+                    onSelect = {
+                        requestThemeChange(true)
+                    }
+                ) {
                     Text("Dark")
                 }
-            )
+            }
         }
     }
 }
@@ -45,8 +53,8 @@ fun main() = application {
     ) {
         App(
             isDark = isDark,
-            requestThemeChange = {
-                isDark = !isDark
+            requestThemeChange = { dark ->
+                isDark = dark
             }
         )
     }
