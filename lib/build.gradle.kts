@@ -16,10 +16,13 @@ kotlin {
         withJava()
     }
     sourceSets {
-        named("jvmMain") {
+        named("commonMain") {
             dependencies {
                 implementation(compose.foundation)
-
+            }
+        }
+        named("jvmMain") {
+            dependencies {
                 implementation("com.mayakapps.compose:window-styler:0.3.2")
             }
         }
