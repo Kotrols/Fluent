@@ -36,8 +36,8 @@ fun ToggleButton(
     Box(
         modifier = modifier
             .focusStroke(
-                outer = focusOuterStroke,
-                inner = focusInnerStroke,
+                outerColor = focusOuterStroke,
+                innerColor = focusInnerStroke,
                 shape = shape
             )
             .clip(shape)

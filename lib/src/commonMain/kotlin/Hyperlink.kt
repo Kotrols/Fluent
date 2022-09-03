@@ -32,8 +32,8 @@ fun Hyperlink(
     Text(
         modifier = modifier
             .focusStroke(
-                outer = focusOuterStroke,
-                inner = focusInnerStroke,
+                outerColor = focusOuterStroke,
+                innerColor = focusInnerStroke,
                 shape = FluentTheme.shapes.small
             )
             .clickable(

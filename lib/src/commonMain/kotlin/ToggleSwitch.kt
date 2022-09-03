@@ -106,8 +106,8 @@ fun ToggleSwitch(
         ToggleSwitchImpl(
             modifier = modifier
                 .focusStroke(
-                    outer = focusOuterStroke,
-                    inner = focusInnerStroke,
+                    outerColor = focusOuterStroke,
+                    innerColor = focusInnerStroke,
                     shape = CircleShape
                 ).then(sharedModifiers),
             toggled = toggled,
@@ -136,9 +136,9 @@ fun ToggleSwitch(
             Row(
                 modifier = Modifier
                     .focusStroke(
-                        outer = focusOuterStroke,
-                        inner = focusInnerStroke,
-                        shape = FluentTheme.shapes.small
+                        outerColor = focusOuterStroke,
+                        innerColor = focusInnerStroke,
+                        shape = FluentTheme.shapes.medium
                     )
                     .padding(horizontal = 4.dp).then(sharedModifiers),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),

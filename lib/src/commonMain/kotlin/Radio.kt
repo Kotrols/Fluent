@@ -112,8 +112,8 @@ fun RadioButton(
         RadioButtonImpl(
             modifier = modifier
                 .focusStroke(
-                    outer = focusOuterStroke,
-                    inner = focusInnerStroke,
+                    outerColor = focusOuterStroke,
+                    innerColor = focusInnerStroke,
                     shape = CircleShape
                 ).then(sharedModifiers),
             selected = selected,
@@ -126,9 +126,9 @@ fun RadioButton(
         Row(
             modifier = modifier
                 .focusStroke(
-                    outer = focusOuterStroke,
-                    inner = focusInnerStroke,
-                    shape = FluentTheme.shapes.small
+                    outerColor = focusOuterStroke,
+                    innerColor = focusInnerStroke,
+                    shape = FluentTheme.shapes.medium
                 )
                 .padding(start = 4.dp, end = 8.dp)
                 .defaultMinSize(
